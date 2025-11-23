@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bag Calculation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Amount Calculation</h2>
+        <label for="bags">Bags:</label>
+        <input type="number" id="bags" placeholder="Enter number of bags" />
+
+        <label for="kgs">Kgs:</label>
+        <input type="number" id="kgs" placeholder="Enter kgs" />
+
+        <label for="thukam">Thukam:</label>
+        <input type="number" id="thukam" placeholder="Enter thukam" />
+
+        <label for="ament">Ament:</label>
+        <input type="number" id="ament" placeholder="Enter ament" />
+
+        <label for="cost">Rate:</label>
+        <input type="number" id="cost" placeholder="Enter cost per bag" />
+
+        <label for="advance">Advance (if any):</label>
+        <input type="number" id="advance" placeholder="Enter advance amount" />
+
+        <label for="jattuki">Jattu ki (if any):</label>
+        <input type="number" id="jattuki" placeholder="Enter jattu ki amount" />
+
+        <button onclick="calculate()">Calculate</button>
+
+        <div class="result" id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
