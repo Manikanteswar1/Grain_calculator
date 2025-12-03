@@ -95,22 +95,32 @@ function calculate() {
   }</p>
         <hr>
 
-        <p><strong>${t.thukam}:</strong> ${bags} . ${kgs} kgs</p>
+        <p><strong>${t.thukam}(${thukam} kgs):</strong> ${bags} . ${kgs} kgs</p>
 
         <p><strong>${t.ament} (${ament} kgs):</strong>
         ${total_bags} . ${remaining_kgs} kgs</p>
 
         <p><strong>${t.rate}:</strong> ₹${formatMoney(cost)} / bag</p>
 
-        <p><strong>${t.totalAmount}:</strong> ₹${formatMoney(total_amount)}</p>
+        <p style="color:#0d6efd;"><strong>${
+          t.totalAmount
+        }:</strong> ₹${formatMoney(total_amount)}</p>
+        
+        
 
-        <p><strong>${t.advance}:</strong> ₹${formatMoney(advance)}</p>
-        <p><strong>${t.jattuki}:</strong> ₹${formatMoney(jattuki)}</p>
+        <p style="color:${advance > 0 ? "#dc3545" : "#6c757d"};">
+  <strong>${t.advance}:</strong> ₹${formatMoney(advance)}
+</p>
+
+<p style="color:${jattuki > 0 ? "#dc3545" : "#6c757d"};">
+  <strong>${t.jattuki}:</strong> ₹${formatMoney(jattuki)}
+</p>
+
 
         <hr>
-        <p><strong>${t.finalAmount}:</strong> ₹${formatMoney(
-    balance_amount
-  )}</p>
+        <p style="color:#198754;"><strong>${
+          t.finalAmount
+        }:</strong> ₹${formatMoney(balance_amount)}</p>
     </div>
     
     
@@ -119,7 +129,6 @@ function calculate() {
     <button id="shareBtn" onclick="shareReceipt()">WhatsApp Share</button>
     `;
 }
-
 
 function downloadReceipt() {
   const receipt = document.getElementById("receipt");
@@ -206,8 +215,6 @@ function shareReceipt() {
   });
 }
 
-
-
 function togglePaid() {
   const stamp = document.getElementById("paidStamp");
   const btn = document.getElementById("paidBtn");
@@ -225,7 +232,6 @@ function togglePaid() {
     btn.textContent = "Not Paid";
   }
 }
-
 
 // set default language on load
 window.onload = toggleLanguage;
