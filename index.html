@@ -9,6 +9,7 @@
 <body>
     <div class="container">
         <h2>Amount Calculation</h2>
+
         <label for="bags">Bags:</label>
         <input type="number" id="bags" placeholder="Enter number of bags" />
 
@@ -18,10 +19,10 @@
         <label for="thukam">Thukam:</label>
         <input type="number" id="thukam" placeholder="Enter thukam" />
 
-        <label for="ament">Ament:</label>
+        <label for="ament">Ament (kgs per bag):</label>
         <input type="number" id="ament" placeholder="Enter ament" />
 
-        <label for="cost">Rate:</label>
+        <label for="cost">Rate (per bag):</label>
         <input type="number" id="cost" placeholder="Enter cost per bag" />
 
         <label for="advance">Advance (if any):</label>
@@ -30,10 +31,18 @@
         <label for="jattuki">Jattu ki (if any):</label>
         <input type="number" id="jattuki" placeholder="Enter jattu ki amount" />
 
-        <button onclick="calculate()">Calculate</button>
+        <label for="farmerName">Farmer Name:</label>
+        <input type="text" id="farmerName" placeholder="Enter farmer name" />
+
+
+        <button class="calc" onclick="calculate()">Calculate</button>
 
         <div class="result" id="result"></div>
+
     </div>
+
+    <!-- html2canvas CDN for image download -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

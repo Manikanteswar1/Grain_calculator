@@ -28,7 +28,7 @@ input, button {
     box-sizing: border-box;
 }
 
-button {
+.calc {
     background: #28a745;
     color: white;
     border: none;
@@ -36,7 +36,7 @@ button {
     font-size: 16px;
 }
 
-button:hover {
+.calc:hover {
     background: #218838;
 }
 
@@ -46,6 +46,31 @@ button:hover {
     border-radius: 5px;
     margin-top: 10px;
     font-size: 16px;
+}
+
+/* Printable receipt box */
+.receipt-box {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.receipt-box p {
+    margin: 3px 0;
+}
+
+#downloadBtn {
+    margin-top: 10px;
+    background: #007bff;
+    font-size: 15px;
+}
+
+#downloadBtn:hover {
+    background: #0069d9;
 }
 
 @media screen and (max-width: 600px) {
@@ -62,7 +87,8 @@ button:hover {
         font-size: 14px;
     }
 
-    .result {
+    .result,
+    .receipt-box {
         font-size: 14px;
     }
 }
