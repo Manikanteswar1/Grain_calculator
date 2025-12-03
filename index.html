@@ -8,34 +8,50 @@
 </head>
 <body>
     <div class="container">
-        <h2>Amount Calculation</h2>
 
-        <label for="bags">Bags:</label>
+        <!-- Language toggle button -->
+        <button id="langBtn" type="button" onclick="toggleLanguage()">తెలుగు</button>
+
+        <h2 data-en="Amount Calculation" data-te="ధాన్యం లెక్కింపు">Amount Calculation</h2>
+
+        <label data-en="Bags:" data-te="బస్తాలు:">Bags:</label>
         <input type="number" id="bags" placeholder="Enter number of bags" />
 
-        <label for="kgs">Kgs:</label>
+        <label for="kgs" data-en="Kgs:" data-te="కిలోలు:">Kgs:</label>
         <input type="number" id="kgs" placeholder="Enter kgs" />
 
-        <label for="thukam">Thukam:</label>
+        <label for="thukam" data-en="Thukam:" data-te="తూకం:">Thukam:</label>
         <input type="number" id="thukam" placeholder="Enter thukam" />
 
-        <label for="ament">Ament (kgs per bag):</label>
+        <label for="ament" data-en="Ament (kgs per bag):" data-te="ఏమెంట్ (ఒక్క బ్యాగ్ కిలోలు):">
+            Ament (kgs per bag):
+        </label>
         <input type="number" id="ament" placeholder="Enter ament" />
 
-        <label for="cost">Rate (per bag):</label>
+        <label for="cost" data-en="Rate (per bag):" data-te="ధర (బ్యాగ్‌కు):">
+            Rate (per bag):
+        </label>
         <input type="number" id="cost" placeholder="Enter cost per bag" />
 
-        <label for="advance">Advance (if any):</label>
+        <label for="advance" data-en="Advance (if any):" data-te="అడ్వాన్స్ (ఉంటే):">
+            Advance (if any):
+        </label>
         <input type="number" id="advance" placeholder="Enter advance amount" />
 
-        <label for="jattuki">Jattu ki (if any):</label>
+        <label for="jattuki" data-en="Jattu ki (if any):" data-te="జట్టు కీ (ఉంటే):">
+            Jattu ki (if any):
+        </label>
         <input type="number" id="jattuki" placeholder="Enter jattu ki amount" />
 
-        <label for="farmerName">Farmer Name:</label>
+        <label for="farmerName" data-en="Farmer Name:" data-te="రైతు పేరు:">
+            Farmer Name:
+        </label>
         <input type="text" id="farmerName" placeholder="Enter farmer name" />
 
-
-        <button class="calc" onclick="calculate()">Calculate</button>
+        <button class="calc"
+                data-en="Calculate"
+                data-te="లెక్కించు"
+                onclick="calculate()">Calculate</button>
 
         <div class="result" id="result"></div>
 
