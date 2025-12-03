@@ -146,13 +146,16 @@ function downloadReceipt() {
 }
 
 function shareReceipt() {
+  const receipt = document.getElementById("receipt");
+  if (!receipt) return;
+
   const farmerName =
     document.getElementById("farmerName").value ||
     (currentLang === "te" ? "రైతు" : "Farmer");
 
   const paidBtn = document.getElementById("paidBtn");
 
-  // hide paid button temporarily
+  // hide paid button temporarily so it won't show in image
   if (paidBtn) paidBtn.style.display = "none";
 
   const message =
@@ -160,14 +163,49 @@ function shareReceipt() {
       ? `పేరు: ${farmerName}\nరసీదు వివరాలు`
       : `Receipt for ${farmerName}\nPlease find the receipt details`;
 
-  const whatsappUrl =
-    "https://wa.me/?text=" + encodeURIComponent(message);
+  html2canvas(receipt).then((canvas) => {
+    // show paid button back in UI
+    if (paidBtn) paidBtn.style.display = "inline-block";
 
-  window.open(whatsappUrl, "_blank");
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        // fallback: only text to WhatsApp
+        const whatsappUrl =
+          "https://wa.me/?text=" + encodeURIComponent(message);
+        window.open(whatsappUrl, "_blank");
+        return;
+      }
 
-  // show back paid button
-  if (paidBtn) paidBtn.style.display = "inline-block";
+      const file = new File(
+        [blob],
+        farmerName.replace(/\s+/g, "_") + "_receipt.png",
+        { type: "image/png" }
+      );
+
+      // ✅ If browser supports sharing files (mobile Chrome, etc.)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            text: message,
+            title: "Receipt",
+          });
+        } catch (err) {
+          // user cancelled or error → fallback to text-only WhatsApp
+          const whatsappUrl =
+            "https://wa.me/?text=" + encodeURIComponent(message);
+          window.open(whatsappUrl, "_blank");
+        }
+      } else {
+        // ❌ Desktop or unsupported browser → text-only WhatsApp
+        const whatsappUrl =
+          "https://wa.me/?text=" + encodeURIComponent(message);
+        window.open(whatsappUrl, "_blank");
+      }
+    });
+  });
 }
+
 
 
 function togglePaid() {
