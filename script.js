@@ -12,6 +12,8 @@ const receiptText = {
     jattuki: "Jattu ki",
     finalAmount: "Final Amount",
     download: "Download Receipt",
+    date: "Date",
+    time: "Time",
   },
   te: {
     title: "రైతు రసీదు",
@@ -24,6 +26,8 @@ const receiptText = {
     jattuki: "జట్టు కీ",
     finalAmount: "చెల్లించాల్సిన మొత్తం",
     download: "రసీదు డౌన్‌లోడ్",
+    date: "తేదీ",
+    time: "సమయం",
   },
 };
 
@@ -46,7 +50,7 @@ function toggleLanguage() {
 function calculate() {
   const bags = parseInt(document.getElementById("bags").value) || 0;
   const kgs = parseFloat(document.getElementById("kgs").value) || 0;
-  const thukam = parseFloat(document.getElementById("thukam").value) || 0;
+  const thukam = parseFloat(document.getElementById("thukam").value) || 70;
   const ament = parseFloat(document.getElementById("ament").value) || 75;
   const cost = parseFloat(document.getElementById("cost").value) || 0;
   const advance = parseFloat(document.getElementById("advance").value) || 0;
@@ -89,10 +93,18 @@ function calculate() {
             PAID
         </div>
 
-        <h4 style="text-align:center;margin:5px 0;">${t.title}</h4>
-        <p><strong>${t.name}:</strong> ${
-    farmerName || (currentLang === "te" ? "రైతు" : "Farmer")
-  }</p>
+        <h4 style="text-align:center; margin-bottom: 20px">${t.title}</h4>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+  <p style="margin:0;line-height:1.3; align-self:center;">
+    <strong>${t.name}:</strong>
+    ${farmerName || (currentLang === "te" ? "రైతు" : "Farmer")}
+  </p>
+
+  <div style="text-align:right;font-size:12px;line-height:1.2;margin-top:2px;">
+    <div><strong>${t.date}:</strong> ${formattedDate}</div>
+    <div><strong>${t.time}:</strong> ${formattedTime}</div>
+  </div>
+</div>
         <hr>
 
         <p><strong>${t.thukam}(${thukam} kgs):</strong> ${bags} . ${kgs} kgs</p>
@@ -129,6 +141,20 @@ function calculate() {
     <button id="shareBtn" onclick="shareReceipt()">WhatsApp Share</button>
     `;
 }
+
+const now = new Date();
+
+const formattedDate = now.toLocaleDateString("en-IN", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+const formattedTime = now.toLocaleTimeString("en-IN", {
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+});
 
 function downloadReceipt() {
   const receipt = document.getElementById("receipt");

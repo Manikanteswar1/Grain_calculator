@@ -20,6 +20,12 @@ h2 {
     margin: 0 auto;
 }
 
+.row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
 input, button {
     width: 100%;
     padding: 10px;
@@ -113,6 +119,9 @@ input, button {
     .receipt-box {
         font-size: 14px;
     }
+    /* .row-2 {
+        grid-template-columns: 1fr;
+    } */
 }
 
 .paid-btn {
