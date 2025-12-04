@@ -260,4 +260,13 @@ function togglePaid() {
 }
 
 // set default language on load
-window.onload = toggleLanguage;
+window.onload = () => {
+  toggleLanguage();
+
+  // Register service worker for PWA
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("./sw.js")
+      .catch((err) => console.log("SW registration failed:", err));
+  }
+};
