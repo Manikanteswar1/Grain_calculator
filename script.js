@@ -124,7 +124,7 @@ function calculate() {
   <strong>${t.advance}:</strong> ₹${formatMoney(advance)}
 </p>
 
-<p style="color:${jattuki > 0 ? "#dc3545" : "#6c757d"};">
+<p style="color:${jattuki > 0 ? "#2bcc8bff" : "#6c757d"};">
   <strong>${t.jattuki}:</strong> ₹${formatMoney(jattuki)}
 </p>
 

@@ -1,10 +1,12 @@
-const CACHE_NAME = "paddy-cache-v3";
+const CACHE_NAME = "paddy-cache-v5";
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
-  "./manifest.json"
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png",
 ];
 
 // Install – cache all core files
