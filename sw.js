@@ -1,4 +1,4 @@
-const CACHE_NAME = "paddy-cache-v5";
+const CACHE_NAME = "paddy-cache-v5.1";
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
