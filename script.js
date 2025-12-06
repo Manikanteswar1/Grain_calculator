@@ -74,7 +74,7 @@ function calculate() {
   balance_amount = +balance_amount.toFixed(2);
 
   const formatMoney = (num) =>
-    num.toLocaleString("en-IN", { minimumFractionDigits: 0 },{maximumFractionDigits: 2});
+    num.toLocaleString("en-IN", { minimumFractionDigits: 0 });
 
   const t = receiptText[currentLang] || receiptText.en;
 
@@ -120,11 +120,11 @@ function calculate() {
         
         
 
-        <p style="color:${advance > 0 ? "#dc3545" : "#6c757d"};">
+        <p style="color:${advance > 0 ? "#000000ff" : "#6c757d"};">
   <strong>${t.advance}:</strong> ₹${formatMoney(advance)}
 </p>
 
-<p style="color:${jattuki > 0 ? "#020806ff" : "#6c757d"};">
+<p style="color:${jattuki > 0 ? "#dc3545" : "#6c757d"};">
   <strong>${t.jattuki}:</strong> ₹${formatMoney(jattuki)}
 </p>
 

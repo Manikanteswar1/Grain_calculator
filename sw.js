@@ -1,4 +1,4 @@
-const CACHE_NAME = "paddy-cache-v5.1.25";
+const CACHE_NAME = "paddy-cache-v7";
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
@@ -10,14 +10,27 @@ const URLS_TO_CACHE = [
 ];
 
 // Install – cache all core files
+// Install – cache all core files safely
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(URLS_TO_CACHE);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      try {
+        await cache.addAll(URLS_TO_CACHE);
+      } catch (err) {
+        console.warn("addAll failed, caching items individually...", err);
+        for (const url of URLS_TO_CACHE) {
+          try {
+            await cache.add(url);
+          } catch (e) {
+            console.warn("Failed to cache", url, e);
+          }
+        }
+      }
     })
   );
   self.skipWaiting();
 });
+
 
 // Activate – clean old caches (optional but good)
 self.addEventListener("activate", (event) => {
