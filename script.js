@@ -140,6 +140,11 @@ function calculate() {
     onclick="downloadReceipt()">${t.download}</button>
     <button id="shareBtn" onclick="shareReceipt()">WhatsApp Share</button>
     `;
+    // scroll to receipt after create
+setTimeout(() => {
+  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+}, 100);
+
 }
 
 const now = new Date();
@@ -263,10 +268,33 @@ function togglePaid() {
 window.onload = () => {
   toggleLanguage();
 
-  // Register service worker for PWA
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker
-      .register("./sw.js")
-      .catch((err) => console.log("SW registration failed:", err));
-  }
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    if (reg.waiting) promptUserToRefresh(reg.waiting);
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          promptUserToRefresh(newWorker);
+        }
+      });
+    });
+  });
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
+}
+
+function promptUserToRefresh(worker) {
+  if (document.getElementById('sw-refresh')) return;
+  const bar = document.createElement('div');
+  bar.id = 'sw-refresh';
+  bar.style = 'position:fixed;bottom:12px;left:12px;right:12px;background:#fff;border:1px solid #ddd;padding:10px;border-radius:6px;z-index:9999;display:flex;justify-content:space-between;align-items:center;';
+  bar.innerHTML = `<div>New version available</div><div><button id="refreshNow">Refresh</button><button id="dismissRefresh">Later</button></div>`;
+  document.body.appendChild(bar);
+  document.getElementById('refreshNow').onclick = () => { worker.postMessage({type:'SKIP_WAITING'}); };
+  document.getElementById('dismissRefresh').onclick = () => { bar.remove(); };
+}
+
 };
