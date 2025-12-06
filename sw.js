@@ -1,60 +1,52 @@
-// improved sw.js — drop-in replacement
-const CACHE_NAME = "paddy-cache-v4"; // bump this on next deploy (v5...)
+const CACHE_NAME = "paddy-cache-v3";
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
-  "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./manifest.json"
 ];
 
-// Install – cache core files
+// Install – cache all core files
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(URLS_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(URLS_TO_CACHE);
+    })
   );
-  // allow activate() to run sooner if we ask later
   self.skipWaiting();
 });
 
-// Activate – remove old caches
+// Activate – clean old caches (optional but good)
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    caches.keys().then((names) =>
+      Promise.all(
+        names
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      )
     )
   );
   self.clients.claim();
 });
 
-// Fetch – navigation fallback + cache-first for assets
+// Fetch
 self.addEventListener("fetch", (event) => {
+  // For navigation (page load / reload)
   if (event.request.mode === "navigate") {
     event.respondWith(
-      caches.match("./index.html").then((cached) => cached || fetch(event.request).catch(() => cached))
+      caches.match("./index.html").then((cached) => {
+        return cached || fetch(event.request);
+      })
     );
     return;
   }
 
+  // For CSS, JS, etc – try cache first, then network
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).then((resp) => {
-        // optionally update runtime cache for same-origin GET requests
-        if (resp && resp.status === 200 && event.request.method === "GET" && new URL(event.request.url).origin === location.origin) {
-          const respClone = resp.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, respClone));
-        }
-        return resp;
-      }).catch(() => cached);
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
     })
   );
-});
-
-// Listen for SKIP_WAITING message from the page
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
 });
