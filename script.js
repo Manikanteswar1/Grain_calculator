@@ -14,6 +14,7 @@ const receiptText = {
     download: "Download Receipt",
     date: "Date",
     time: "Time",
+    remarks: "Remarks",
   },
   te: {
     title: "రైతు రసీదు",
@@ -28,6 +29,7 @@ const receiptText = {
     download: "రసీదు డౌన్‌లోడ్",
     date: "తేదీ",
     time: "సమయం",
+    remarks: "గమనికలు:",
   },
 };
 
@@ -44,6 +46,19 @@ function toggleLanguage() {
   const langBtn = document.getElementById("langBtn");
   if (langBtn) {
     langBtn.textContent = currentLang === "en" ? "తెలుగు" : "English";
+  }
+}
+
+function toggleRemarks() {
+  const box = document.getElementById("remarksWrapper");
+  const btn = document.getElementById("remarksToggleBtn");
+
+  if (box.style.display === "none") {
+    box.style.display = "block";
+    btn.textContent = "-";
+  } else {
+    box.style.display = "none";
+    btn.textContent = "+";
   }
 }
 
@@ -77,7 +92,9 @@ function calculate() {
     num.toLocaleString("en-IN", { minimumFractionDigits: 0 });
 
   const t = receiptText[currentLang] || receiptText.en;
-
+let remarks = (document.getElementById("remarksInput")?.value || "")
+  .replace(/\r/g, "")      // remove \r
+  .replace(/^[\n]+/, "");  // remove leading newlines only
   document.getElementById("result").innerHTML = `
     <div id="receipt" style="border:1px dashed #999;padding:10px;position:relative;">
 
@@ -95,7 +112,8 @@ function calculate() {
 
         <h4 style="text-align:center; margin-bottom: 20px">${t.title}</h4>
         <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-  <p style="margin:0;line-height:1.3; align-self:center;">
+  <p style="margin:0; line-height:1.3; align-self:center; 
+          max-width:180px; word-wrap:break-word; white-space:normal;">
     <strong>${t.name}:</strong>
     ${farmerName || (currentLang === "te" ? "రైతు" : "Farmer")}
   </p>
@@ -120,7 +138,7 @@ function calculate() {
         
         
 
-        <p style="color:${advance > 0 ? "#000000ff" : "#6c757d"};">
+        <p style="color:${advance > 0 ? "#dc3545" : "#6c757d"};">
   <strong>${t.advance}:</strong> ₹${formatMoney(advance)}
 </p>
 
@@ -130,9 +148,22 @@ function calculate() {
 
 
         <hr>
-        <p style="color:#198754;"><strong>${
+        <p style="color:#198754; margin-bottom:25px;"><strong>${
           t.finalAmount
         }:</strong> ₹${formatMoney(balance_amount)}</p>
+
+       ${
+         remarks
+           ? `
+           <strong style="color: #343a40;">${t.remarks || "Remarks:"}</strong>
+<p style="white-space: pre-line; margin: 0; padding-left:15px; margin-top:-15px; color:#495057;">
+    ${remarks}
+</p>
+`
+           : ""
+       }
+
+
     </div>
     
     
@@ -140,11 +171,10 @@ function calculate() {
     onclick="downloadReceipt()">${t.download}</button>
     <button id="shareBtn" onclick="shareReceipt()">WhatsApp Share</button>
     `;
-    // scroll to receipt after create
-setTimeout(() => {
-  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
-}, 100);
-
+  // scroll to receipt after create
+  setTimeout(() => {
+    document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+  }, 100);
 }
 
 const now = new Date();
@@ -268,10 +298,38 @@ function togglePaid() {
 window.onload = () => {
   toggleLanguage();
 
-  // Register service worker for PWA
+  // Register service worker for PWA (silent update)
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register("./sw.js")
+      .then((reg) => {
+        // If there's already a waiting SW, ask it to activate
+        if (reg.waiting) {
+          reg.waiting.postMessage({ type: "SKIP_WAITING" });
+        }
+
+        // Listen for new installing worker
+        reg.addEventListener("updatefound", () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return; // guard
+          newWorker.addEventListener("statechange", () => {
+            if (
+              newWorker.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
+              // new SW installed — ask it to activate immediately
+              newWorker.postMessage({ type: "SKIP_WAITING" });
+            }
+          });
+        });
+      })
       .catch((err) => console.log("SW registration failed:", err));
+
+    // Reload once when controller actually changes (prevent loops)
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (window.__swReloading) return;
+      window.__swReloading = true;
+      window.location.reload();
+    });
   }
 };

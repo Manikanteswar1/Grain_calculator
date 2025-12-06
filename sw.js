@@ -1,4 +1,4 @@
-const CACHE_NAME = "paddy-cache-v7";
+const CACHE_NAME = "paddy-cache-v5.15";
 const URLS_TO_CACHE = [
   "./",
   "./index.html",
@@ -9,7 +9,6 @@ const URLS_TO_CACHE = [
   "./icon-512.png",
 ];
 
-// Install – cache all core files
 // Install – cache all core files safely
 self.addEventListener("install", (event) => {
   event.waitUntil(

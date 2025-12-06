@@ -1,83 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paddy Calculator</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#28a745">
-    <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paddy Calculator</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#28a745">
+  <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
+  <div class="container">
 
-        <!-- Language toggle button -->
-        <button id="langBtn" type="button" onclick="toggleLanguage()">తెలుగు</button>
+    <!-- Language toggle button -->
+    <button id="langBtn" type="button" onclick="toggleLanguage()">తెలుగు</button>
 
-        <h2 data-en="Amount Calculation" data-te="ధాన్యం లెక్కింపు">Amount Calculation</h2>
+    <h2 data-en="Amount Calculation" data-te="ధాన్యం లెక్కింపు">Amount Calculation</h2>
 
-        <div class="row-2">
-  <div>
-    <label data-en="Bags:" data-te="బస్తాలు:">Bags:</label>
-    <input type="number" id="bags" placeholder="Enter bags" />
-  </div>
+    <div class="row-2">
+      <div>
+        <label data-en="Bags:" data-te="బస్తాలు:">Bags:</label>
+        <input type="number" id="bags" placeholder="Enter bags" />
+      </div>
 
-  <div>
-    <label data-en="Kgs:" data-te="కిలోలు:">Kgs:</label>
-    <input type="number" id="kgs" placeholder="Enter kgs" />
-  </div>
-</div>
-
-
-       <div class="row-2">
-  <div>
-    <label for="thukam" data-en="Thukam (70 kgs):" data-te="తూకం (70 లు):">Thukam:</label>
-    <input type="number" id="thukam" placeholder="Enter thukam" />
-  </div>
-
-  <div>
-    <label for="ament"
-      data-en="Ament (75 kgs):"
-      data-te="ఏమెంట్ (75 లు):">
-      Ament
-    </label>
-    <input type="number" id="ament" placeholder="Enter ament" />
-  </div>
-</div>
-
-
-        <label for="cost" data-en="Rate (per bag):" data-te="ధర (ఒక బస్తాకు):">
-            Rate (per bag):
-        </label>
-        <input type="number" id="cost" placeholder="Enter cost per bag" />
-
-        <label for="advance" data-en="Advance (if any):" data-te="అడ్వాన్స్ (ఉంటే):">
-            Advance (if any):
-        </label>
-        <input type="number" id="advance" placeholder="Enter advance amount" />
-
-        <label for="jattuki" data-en="Jattu ki (if any):" data-te="జట్టు కీ (ఉంటే):">
-            Jattu ki (if any):
-        </label>
-        <input type="number" id="jattuki" placeholder="Enter jattu ki amount" />
-
-        <label for="farmerName" data-en="Farmer Name:" data-te="రైతు పేరు:">
-            Farmer Name:
-        </label>
-        <input type="text" id="farmerName" placeholder="Enter farmer name" />
-
-        <button class="calc"
-                data-en="Calculate"
-                data-te="లెక్కించు"
-                onclick="calculate()">Calculate</button>
-
-        <div class="result" id="result"></div>
-
+      <div>
+        <label data-en="Kgs:" data-te="కిలోలు:">Kgs:</label>
+        <input type="number" id="kgs" placeholder="Enter kgs" />
+      </div>
     </div>
 
-    <!-- html2canvas CDN for image download -->
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+
+    <div class="row-2">
+      <div>
+        <label for="thukam" data-en="Thukam (70 kgs):" data-te="తూకం (70 లు):">Thukam:</label>
+        <input type="number" id="thukam" placeholder="Enter thukam" />
+      </div>
+
+      <div>
+        <label for="ament" data-en="Ament (75 kgs):" data-te="ఏమెంట్ (75 లు):">
+          Ament
+        </label>
+        <input type="number" id="ament" placeholder="Enter ament" />
+      </div>
+    </div>
+
+
+    <label for="cost" data-en="Rate (per bag):" data-te="ధర (ఒక బస్తాకు):">
+      Rate (per bag):
+    </label>
+    <input type="number" id="cost" placeholder="Enter cost per bag" />
+
+    <label for="advance" data-en="Advance (if any):" data-te="అడ్వాన్స్ (ఉంటే):">
+      Advance (if any):
+    </label>
+    <input type="number" id="advance" placeholder="Enter advance amount" />
+
+    <label for="jattuki" data-en="Jattu ki (if any):" data-te="జట్టు కీ (ఉంటే):">
+      Jattu ki (if any):
+    </label>
+    <input type="number" id="jattuki" placeholder="Enter jattu ki amount" />
+
+    <label for="farmerName" data-en="Farmer Name:" data-te="రైతు పేరు:">
+      Farmer Name:
+    </label>
+    <input type="text" id="farmerName" placeholder="Enter farmer name" style="padding-right: 40px;" />
+
+    <!-- + button to show remarks input -->
+    <div style="margin-top:-50px; margin-bottom:5px; text-align:right;">
+      <button id="remarksToggleBtn"
+        style="font-size:18px;padding:2px 8px;border:none;background:rgb(73,73,235);color:#fff;border-radius:4px; width:30px; margin-right:5px;"
+        onclick="toggleRemarks()">+</button>
+    </div>
+
+
+    <!-- Hidden remarks input -->
+    <div id="remarksWrapper" style="display:none;">
+      <label for="remarksInput" data-en="Remarks:" data-te="గమనికలు:">Remarks:</label>
+<textarea id="remarksInput"
+          placeholder="Enter remarks"
+          style="width:94%; padding:8px; border:1px solid #ccc; border-radius:5px;
+                 height:60px; resize:none;">
+</textarea>    </div>
+
+
+    <button class="calc" data-en="Calculate" data-te="లెక్కించు" onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+
+  </div>
+
+  <!-- html2canvas CDN for image download -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
